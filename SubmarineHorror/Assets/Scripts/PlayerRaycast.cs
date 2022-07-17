@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+
 
 public class PlayerRaycast : MonoBehaviour
 {
@@ -36,8 +38,8 @@ public class PlayerRaycast : MonoBehaviour
         if (Physics.Raycast(camRay, out RaycastHit hitInfo, RAY_DISTANCE, controlMask))
         {
             plrCursor.color = interactColor;
-
-            if (Input.GetMouseButton(0))
+        
+            if (Mouse.current.leftButton.isPressed)
             {
                 string btnName = hitInfo.collider.name;
                 GameObject btn = hitInfo.collider.gameObject;

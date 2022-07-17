@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MapScript : MonoBehaviour
 {
@@ -7,7 +8,6 @@ public class MapScript : MonoBehaviour
     private RectTransform mapRect;
     private AudioSource audioSrc;
 
-    private const KeyCode MAP_KEY = KeyCode.Tab;
     private const float OPEN_TIME = 1f;
 
     private bool mapOpen = false;
@@ -24,7 +24,7 @@ public class MapScript : MonoBehaviour
 
     private void Update() 
     {
-        if (Input.GetKeyDown(MAP_KEY) && !LeanTween.isTweening(mapRect))
+        if (Keyboard.current.tabKey.wasPressedThisFrame && !LeanTween.isTweening(mapRect))
         {
             audioSrc.pitch = Random.Range(0.8f, 1.15f);
 

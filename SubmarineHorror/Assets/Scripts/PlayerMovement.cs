@@ -1,8 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private PlayerInput plrInput;
+    private InputAction movementMap;
+
     private Transform plrCamera;
     private CharacterController cController;
 
@@ -11,13 +15,15 @@ public class PlayerMovement : MonoBehaviour
     private float lockedYAxisConst;
 
     private bool currentlyShaking = false;
-    private bool lockMovement = false;
+    private bool lockMovement = false; // default is false
 
     private const float MOVEMENT_SPEED = 3.5f;
     private const float MAX_CAMERA_ANGLE = 80f;
 
     private void Awake() 
     {
+        plrInput = GetComponent<PlayerInput>();
+
         plrCamera = transform.GetChild(0).GetChild(0);
         cController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
@@ -35,8 +41,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        float vertical = plrInput.actions["Vertical"].ReadValue<float>();
+        float horizontal = plrInput.actions["Horizontal"].ReadValue<float>();
 
         Vector3 movementVector = (transform.forward * vertical + transform.right * horizontal).normalized;
         cController.Move(movementVector * Time.deltaTime * MOVEMENT_SPEED);
@@ -45,8 +51,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void CameraMovement()
     {
-        float mouseX = Input.GetAxis("Mouse X") * PlayerSettings.mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * PlayerSettings.mouseSensitivity;
+        float mouseX = plrInput.actions["MouseX"].ReadValue<float>() * PlayerSettings.mouseSensitivity;
+        float mouseY = plrInput.actions["MouseY"].ReadValue<float>() * PlayerSettings.mouseSensitivity;
 
         if (!PlayerSettings.mouseInverted)
         {
@@ -113,5 +119,5 @@ public class PlayerMovement : MonoBehaviour
 public class PlayerSettings
 {
     public static bool mouseInverted = true;
-    public static float mouseSensitivity = 1.5f;
+    public static float mouseSensitivity = 0.15f;
 }
