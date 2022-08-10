@@ -8,6 +8,7 @@ public class PlayerRaycast : MonoBehaviour
     private SubmarineControls subControls;
     private CameraManager camManager;
 
+    [SerializeField]
     private Transform plrCam;
 
     [SerializeField]
@@ -27,7 +28,6 @@ public class PlayerRaycast : MonoBehaviour
         subControls = FindObjectOfType<SubmarineControls>();
         camManager = FindObjectOfType<CameraManager>();
 
-        plrCam = transform.GetChild(0).GetChild(0);
         controlMask = LayerMask.GetMask("SubControls");
     }
 

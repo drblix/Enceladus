@@ -4,9 +4,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public bool playerCanInteract = true;
+
     private PlayerInput plrInput;
     private InputAction movementMap;
 
+    [SerializeField]
     private Transform plrCamera;
     private CharacterController cController;
 
@@ -15,24 +18,23 @@ public class PlayerMovement : MonoBehaviour
     private float lockedYAxisConst;
 
     private bool currentlyShaking = false;
-    private bool lockMovement = false; // default is false
 
-    private const float MOVEMENT_SPEED = 3.5f;
+    private const float MOVEMENT_SPEED = 2.5f;
+    public float PlayerSpeed { get { return MOVEMENT_SPEED; } }
     private const float MAX_CAMERA_ANGLE = 80f;
 
     private void Awake() 
     {
         plrInput = GetComponent<PlayerInput>();
-
-        plrCamera = transform.GetChild(0).GetChild(0);
         cController = GetComponent<CharacterController>();
+
         Cursor.lockState = CursorLockMode.Locked;
         lockedYAxisConst = transform.position.y;
     }
 
     private void Update()
     {
-        if (!lockMovement)
+        if (playerCanInteract)
         {
             Movement();
             CameraMovement();
@@ -109,15 +111,20 @@ public class PlayerMovement : MonoBehaviour
 
         currentlyShaking = false;
     }
-
-    public void LockMovement(bool state)
-    {
-        lockMovement = state;
-    }
 }
 
 public class PlayerSettings
 {
+    public enum ResolutionTypes
+    {
+        x64,
+        x128,
+        x256,
+        x512,
+
+    }
     public static bool mouseInverted = true;
-    public static float mouseSensitivity = 0.15f;
+    public static bool motionBlur = true;
+    public static float mouseSensitivity = 0.1f;
+    public static ResolutionTypes resolutionType = ResolutionTypes.x256;
 }
