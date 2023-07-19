@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4769072683261966864}
   - component: {fileID: 4769072683261966865}
-  - component: {fileID: 972570243826335135}
+  - component: {fileID: 4769072683261966866}
+  - component: {fileID: 877989095492964666}
+  - component: {fileID: 7280732535587036136}
   m_Layer: 0
-  m_Name: DetectorEventObject
+  m_Name: EventObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 43.3, y: 12.3, z: 60.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -40,12 +43,52 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4769072683261966867}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 25, y: 25, z: 25}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &972570243826335135
+--- !u!114 &4769072683261966866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4769072683261966867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a45e5cb499c42b04d9a92f85948ac385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _chosenDirection: 0
+  _chosenClip: 0
+  _clipDelay: 0
+  _volume: 1
+--- !u!114 &877989095492964666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4769072683261966867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ba06d960ba3ad4cb8eac63f20e2704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shakeDuration: 0.5
+  _shakeMagnitude: 0.25
+  _shakeDelay: 0
+  _shakeFadeOut: 0
+--- !u!114 &7280732535587036136
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,3 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb6ee055727db149bca44bebcdf0076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _blockerOrigin: 0
+  _blockersDistance: 0.1
+  _duration: 2
+  _delay: 0

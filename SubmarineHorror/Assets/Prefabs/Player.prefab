@@ -26,6 +26,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.6363636, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962096323722785784}
   - {fileID: 3070291091802332786}
@@ -44,7 +45,7 @@ GameObject:
   - component: {fileID: 7225009352310810193}
   - component: {fileID: 1429910218002144451}
   m_Layer: 0
-  m_Name: RendingCamera
+  m_Name: RenderingCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,6 +61,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2534767186658240259}
   m_RootOrder: 1
@@ -78,9 +80,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -129,6 +139,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1697
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -136,9 +147,20 @@ MonoBehaviour:
   m_Dithering: 0
   m_ClearDepth: 1
   m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &3962096323722785789
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,6 +191,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2534767186658240259}
   m_RootOrder: 0
@@ -187,9 +210,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -259,6 +290,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1719
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -266,9 +298,20 @@ MonoBehaviour:
   m_Dithering: 0
   m_ClearDepth: 1
   m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &3962096324612628295
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,8 +322,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3962096324612628290}
   - component: {fileID: 3962096324612628288}
-  - component: {fileID: 3962096324612628316}
-  - component: {fileID: 3962096324612628289}
   - component: {fileID: 3962096324612628291}
   - component: {fileID: 3962096324612628317}
   - component: {fileID: 86681687597313889}
@@ -304,6 +345,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -36.092003, y: 1.36, z: 1.476}
   m_LocalScale: {x: 1, y: 1.1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2534767186658240259}
   m_Father: {fileID: 0}
@@ -317,9 +359,17 @@ CharacterController:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962096324612628295}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 0
@@ -327,56 +377,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!33 &3962096324612628316
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3962096324612628295}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &3962096324612628289
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3962096324612628295}
-  m_Enabled: 0
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3962096324612628291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,8 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59aea908fa65df4c8b49d404f5ebff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCanInteract: 1
-  plrCamera: {fileID: 0}
+  _plrCamera: {fileID: 3070291091802332786}
 --- !u!114 &3962096324612628317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,10 +402,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10da1000015ad440b0ac2b188a892aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plrCam: {fileID: 0}
-  plrCursor: {fileID: 0}
-  defaultColor: {r: 0.85882354, g: 0.85882354, b: 0.85882354, a: 0.5882353}
-  interactColor: {r: 0.14136735, g: 0.8962264, b: 0.12259703, a: 0.5882353}
+  _plrCam: {fileID: 3070291091802332786}
+  _plrCursor: {fileID: 0}
+  _defaultColor: {r: 0.754717, g: 0.754717, b: 0.754717, a: 0.5019608}
+  _interactColor: {r: 0.39215687, g: 0.7529412, b: 0.39215687, a: 0.5019608}
 --- !u!114 &86681687597313889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,13 +418,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 733fc380397e7ac499d280b01d623993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headTransform: {fileID: 2534767186658240259}
-  renderingCamTrans: {fileID: 3070291091802332786}
-  bobFrequency: 4.5
-  bobHorizontalAmp: 0.1
-  bobVerticalAmp: 0.08
-  bobSmoothing: 0.1
-  isMoving: 0
+  _headTransform: {fileID: 2534767186658240259}
+  _renderingCamTrans: {fileID: 3070291091802332786}
+  _bobFrequency: 3.75
+  _bobHorizontalAmp: 0.1
+  _bobVerticalAmp: 0.1
+  _bobSmoothing: 0.1
+  _isMoving: 0
 --- !u!114 &8974817979323778804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,14 +437,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0ca5d72c24711c4a98adbf6756cfcbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footsteps:
+  _footstepClips:
   - {fileID: 8300000, guid: ba9e5e3c66bfcc242a0da9931b41e500, type: 3}
   - {fileID: 8300000, guid: bd6d468041919f948b53053945e13acc, type: 3}
   - {fileID: 8300000, guid: 6f389750c6aef584db6ce33cfeb90957, type: 3}
   - {fileID: 8300000, guid: 433c82479f446a94d892c5f30fc0721b, type: 3}
   - {fileID: 8300000, guid: c5739e789a9ed424ea7773f2ad3fa36b, type: 3}
   - {fileID: 8300000, guid: 82a1239bb2b6c9c46a65cfd5927b11fb, type: 3}
-  stepWaitTime: 0.8
 --- !u!114 &8854828033539293603
 MonoBehaviour:
   m_ObjectHideFlags: 0

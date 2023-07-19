@@ -1,93 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerFootsteps : MonoBehaviour
 {
-    private CameraBobbing cameraBobbing;
+    [SerializeField] private AudioClip[] _footstepClips;
 
-    [SerializeField]
-    private AudioClip[] footsteps;
+    private AudioSource _stepSource;
 
-    private AudioSource stepSource;
+    private Vector3 _lastPlrPos;
 
-    private Vector3 lastPlrPos;
-
-    [SerializeField]
-    private float stepWaitTime = 0.5f;
-
-    private bool canPlayStep = true;
+    private bool _canPlayStep = true;
 
     private void Awake() 
     {
-        cameraBobbing = FindObjectOfType<CameraBobbing>();
-        stepSource = GetComponent<AudioSource>();
-        lastPlrPos = transform.position;
+        _stepSource = GetComponent<AudioSource>();
+        _lastPlrPos = transform.position;
     }
 
     private void Update() 
     {
         if (PlayerIsMoving())
         {
-            cameraBobbing.SetMovingState(true);
+            CameraBobbing.Instance.SetMovingState(true);
             PlayFootstep();
         }
         else
-        {
-            cameraBobbing.SetMovingState(false);
-        }
+            CameraBobbing.Instance.SetMovingState(false);
 
-        /*
-        if (lastPlrPos != transform.position)
-        {
-            cameraBobbing.SetMovingState(true);
-
-            if (!stepSource.isPlaying)
-            {
-                AudioClip newClip = footsteps[Random.Range(0, footsteps.Length)];
-                stepSource.clip = newClip;
-                stepSource.pitch = Random.Range(0.9f, 1.1f);
-                stepSource.Play();
-            }
-        }
-        else
-        {
-            cameraBobbing.SetMovingState(false);
-        }
-        */
-
-        lastPlrPos = transform.position;
+        _lastPlrPos = transform.position;
     }
 
     private void PlayFootstep()
     {
-        if (canPlayStep)
+        if (CameraBobbing.Instance.OffsetY < -.09f && _canPlayStep)
         {
-            canPlayStep = false;
-            AudioClip clip = footsteps[Random.Range(0, footsteps.Length)];
-            stepSource.clip = clip;
-            stepSource.pitch = Random.Range(0.9f, 1.1f);
-            stepSource.Play();
-            
-            StartCoroutine(CooldownStep());
+            _stepSource.clip = _footstepClips[Random.Range(0, _footstepClips.Length)];
+            _stepSource.pitch = Random.Range(.9f, 1.1f);
+            _stepSource.Play();
+
+            _canPlayStep = false;
         }
+
+        if (CameraBobbing.Instance.OffsetY > -.09f)
+            _canPlayStep = true;
     }
 
-    private IEnumerator CooldownStep()
-    {
-        yield return new WaitForSeconds(stepWaitTime);
-        canPlayStep = true;
-    }
-
-    private bool PlayerIsMoving()
-    {
-        if (lastPlrPos != transform.position)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    private bool PlayerIsMoving() => _lastPlrPos != transform.position;
 }

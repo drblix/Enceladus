@@ -2,34 +2,40 @@ using UnityEngine;
 
 public class CameraBobbing : MonoBehaviour
 {
-    private PlayerMovement plrMovement;
+    private static CameraBobbing _instance;
+    public static CameraBobbing Instance { get { return _instance; } }
+
+    public float OffsetY { get; private set; } = 0f;
 
     [SerializeField]
-    private Transform headTransform;
+    private Transform _headTransform;
     [SerializeField]
-    private Transform renderingCamTrans;
+    private Transform _renderingCamTrans;
 
     [Header("Bobbing Config")]
 
     [SerializeField]
-    private float bobFrequency = 5f;
+    private float _bobFrequency = 5f;
     [SerializeField]
-    private float bobHorizontalAmp = 0.1f;
+    private float _bobHorizontalAmp = 0.1f;
     [SerializeField]
-    private float bobVerticalAmp = 0.1f;
+    private float _bobVerticalAmp = 0.1f;
     [SerializeField] [Range(0, 1)]
-    private float bobSmoothing = 0.1f;
+    private float _bobSmoothing = 0.1f;
 
     [SerializeField]
-    private bool isMoving = false;
-    private float walkingTime;
-    private Vector3 targetCamPos;
+    private bool _isMoving = false;
 
-    private void Awake() 
+    private float _walkingTime;
+
+    private Vector3 _targetCamPos;
+
+    private void Awake()
     {
-        plrMovement = GetComponent<PlayerMovement>();
-        bobFrequency = plrMovement.PlayerSpeed * 1.5f;
-        
+        if (_instance != null && _instance != this)
+            Destroy(gameObject);
+        else
+            _instance = this;
     }
 
     private void Update()
@@ -39,23 +45,17 @@ public class CameraBobbing : MonoBehaviour
 
     private void HeadBob()
     {
-        if (!isMoving)
-        {
-            walkingTime = 0f;
-        }
+        if (!_isMoving)
+            _walkingTime = 0f;
         else
-        {
-            walkingTime += Time.deltaTime;
-        }
+            _walkingTime += Time.deltaTime;
 
-        targetCamPos = headTransform.position + CalculateOffset(walkingTime);
+        _targetCamPos = _headTransform.position + CalculateOffset(_walkingTime);
 
-        renderingCamTrans.position = Vector3.Lerp(renderingCamTrans.position, targetCamPos, bobSmoothing);
+        _renderingCamTrans.position = Vector3.Lerp(_renderingCamTrans.position, _targetCamPos, _bobSmoothing);
 
-        if ((renderingCamTrans.position - targetCamPos).magnitude <= 0.001f)
-        {
-            renderingCamTrans.position = targetCamPos;
-        }
+        if ((_renderingCamTrans.position - _targetCamPos).sqrMagnitude <= 0.000001f)
+            _renderingCamTrans.position = _targetCamPos;
     }
 
     private Vector3 CalculateOffset(float time)
@@ -64,17 +64,15 @@ public class CameraBobbing : MonoBehaviour
 
         if (time > 0f)
         {
-            float horzOffset = Mathf.Cos(time * bobFrequency) * bobHorizontalAmp;
-            float vertOffset = Mathf.Sin(time * bobFrequency * 2) * bobVerticalAmp;
+            float horzOffset = Mathf.Cos(time * _bobFrequency) * _bobHorizontalAmp;
+            float vertOffset = Mathf.Sin(time * _bobFrequency * 2) * _bobVerticalAmp;
 
-            offset = headTransform.right * horzOffset + headTransform.up * vertOffset;
+            offset = _headTransform.right * horzOffset + _headTransform.up * vertOffset;
+            OffsetY = vertOffset;
         }
 
         return offset;
     }
 
-    public void SetMovingState(bool state)
-    {
-        isMoving = state;
-    }
+    public void SetMovingState(bool state) => _isMoving = state;
 }

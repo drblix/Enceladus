@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class ObjectiveChecker : MonoBehaviour
 {
+    private static ObjectiveChecker _instance;
+    public static ObjectiveChecker Instance { get { return _instance; } }
+
     [SerializeField]
     private List<Objective> objectiveList = new List<Objective>();
 
@@ -15,6 +18,11 @@ public class ObjectiveChecker : MonoBehaviour
         {
             objectiveList.Add(obj);
         }
+
+        if (_instance != null && _instance != this)
+            Destroy(gameObject);
+        else
+            _instance = this;
     }
 
     public void CheckObjectives()

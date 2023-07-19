@@ -2,42 +2,42 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-
 public class PlayerRaycast : MonoBehaviour
 {
-    private SubmarineControls subControls;
-    private CameraManager camManager;
+    private static PlayerRaycast _instance;
+    public static PlayerRaycast Instance { get { return _instance; } }
 
-    [SerializeField]
-    private Transform plrCam;
+    private CameraManager _camManager;
 
-    [SerializeField]
-    private Image plrCursor;
+    [SerializeField] private Transform _plrCam;
 
-    [SerializeField]
-    private Color defaultColor;
-    [SerializeField]
-    private Color interactColor;
+    [SerializeField] private Image _plrCursor;
 
-    private int controlMask;
+    [SerializeField] private Color _defaultColor, _interactColor;
+
+    private int _controlMask;
 
     private const float RAY_DISTANCE = 4f;
 
     private void Awake()
     {
-        subControls = FindObjectOfType<SubmarineControls>();
-        camManager = FindObjectOfType<CameraManager>();
+        _camManager = FindObjectOfType<CameraManager>();
 
-        controlMask = LayerMask.GetMask("SubControls");
+        _controlMask = LayerMask.GetMask("SubControls");
+
+        if (_instance != null && _instance != this)
+            Destroy(gameObject);
+        else
+            _instance = this;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        Ray camRay = new Ray(plrCam.position, plrCam.forward);
+        Ray camRay = new (_plrCam.position, _plrCam.forward);
 
-        if (Physics.Raycast(camRay, out RaycastHit hitInfo, RAY_DISTANCE, controlMask))
+        if (Physics.Raycast(camRay, out RaycastHit hitInfo, RAY_DISTANCE, _controlMask))
         {
-            plrCursor.color = interactColor;
+            _plrCursor.color = _interactColor;
         
             if (Mouse.current.leftButton.isPressed)
             {
@@ -46,34 +46,34 @@ public class PlayerRaycast : MonoBehaviour
 
                 if (btnName == "ForwardButton")
                 {
-                    subControls.ToggleControl("forward", true, btn);
+                    SubmarineControls.Instance.ToggleControl("forward", true, btn);
                 }
                 else if (btnName == "BackButton")
                 {
-                    subControls.ToggleControl("backwards", true, btn);
+                    SubmarineControls.Instance.ToggleControl("backwards", true, btn);
                 }
                 else if (btnName == "RightButton")
                 {
-                    subControls.ToggleControl("right", true, btn);
+                    SubmarineControls.Instance.ToggleControl("right", true, btn);
                 }
                 else if (btnName == "LeftButton")
                 {
-                    subControls.ToggleControl("left", true, btn);
+                    SubmarineControls.Instance.ToggleControl("left", true, btn);
                 }
                 else if (btnName == "CamButton")
                 {
-                    StartCoroutine(camManager.ButtonPressed());
+                    StartCoroutine(_camManager.ButtonPressed());
                 }
             }
             else
             {
-                subControls.ToggleControl("disableall", false, null);
+                SubmarineControls.Instance.ToggleControl("disableall", false, null);
             }
         }
         else
         {
-            subControls.ToggleControl("disableall", false, null);
-            plrCursor.color = defaultColor;
+            SubmarineControls.Instance.ToggleControl("disableall", false, null);
+            _plrCursor.color = _defaultColor;
         }
     }
 }

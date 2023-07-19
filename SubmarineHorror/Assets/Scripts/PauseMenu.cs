@@ -74,7 +74,7 @@ public class PauseMenu : MonoBehaviour
         {
             if (Time.timeScale == 0f)
             {
-                playerMovement.playerCanInteract = true;
+                playerMovement.PlayerCanInteract = true;
                 Cursor.lockState = CursorLockMode.Locked;
                 pauseMenu.SetActive(false);
                 ToggleAudioSources(false);
@@ -82,7 +82,7 @@ public class PauseMenu : MonoBehaviour
             }
             else
             {
-                playerMovement.playerCanInteract = false;
+                playerMovement.PlayerCanInteract = false;
                 Cursor.lockState = CursorLockMode.None;
                 pauseMenu.SetActive(true);
                 ToggleAudioSources(true);
@@ -132,7 +132,7 @@ public class PauseMenu : MonoBehaviour
         }
         else if (name == "resume")
         {
-            playerMovement.playerCanInteract = true;
+            playerMovement.PlayerCanInteract = true;
             Cursor.lockState = CursorLockMode.Locked;
             pauseMenu.SetActive(false);
             ToggleAudioSources(false);

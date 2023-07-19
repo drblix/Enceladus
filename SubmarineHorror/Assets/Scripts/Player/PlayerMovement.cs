@@ -4,37 +4,43 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public bool playerCanInteract = true;
+    private static PlayerMovement _instance;
+    public static PlayerMovement Instance { get { return _instance; } }
 
-    private PlayerInput plrInput;
-    private InputAction movementMap;
+    public bool PlayerCanInteract { get; set; } = true;
+    public bool CurrentlyShaking { get; private set; } = false;
+    public float PlayerSpeed { get; private set; } = 2.5f;
 
-    [SerializeField]
-    private Transform plrCamera;
-    private CharacterController cController;
+    [SerializeField] private Transform _plrCamera;
 
-    private float xRotation = 0f;
-
-    private float lockedYAxisConst;
-
-    private bool currentlyShaking = false;
-
-    private const float MOVEMENT_SPEED = 2.5f;
-    public float PlayerSpeed { get { return MOVEMENT_SPEED; } }
     private const float MAX_CAMERA_ANGLE = 80f;
+
+    private PlayerInput _plrInput;
+
+    private CharacterController _charController;
+
+    private float _xRotation = 0f;
+
+    private float _lockedYAxisConst;
+
 
     private void Awake() 
     {
-        plrInput = GetComponent<PlayerInput>();
-        cController = GetComponent<CharacterController>();
+        _plrInput = GetComponent<PlayerInput>();
+        _charController = GetComponent<CharacterController>();
 
         Cursor.lockState = CursorLockMode.Locked;
-        lockedYAxisConst = transform.position.y;
+        _lockedYAxisConst = transform.position.y;
+
+        if (_instance != null && _instance != this)
+            Destroy(gameObject);
+        else
+            _instance = this;
     }
 
     private void Update()
     {
-        if (playerCanInteract)
+        if (PlayerCanInteract)
         {
             Movement();
             CameraMovement();
@@ -43,31 +49,27 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement()
     {
-        float vertical = plrInput.actions["Vertical"].ReadValue<float>();
-        float horizontal = plrInput.actions["Horizontal"].ReadValue<float>();
+        float vertical = _plrInput.actions["Vertical"].ReadValue<float>();
+        float horizontal = _plrInput.actions["Horizontal"].ReadValue<float>();
 
         Vector3 movementVector = (transform.forward * vertical + transform.right * horizontal).normalized;
-        cController.Move(movementVector * Time.deltaTime * MOVEMENT_SPEED);
-        transform.position = new Vector3(transform.position.x, lockedYAxisConst, transform.position.z); // Locks player's y-position
+        _charController.Move(PlayerSpeed * Time.deltaTime * movementVector);
+        transform.position = new Vector3(transform.position.x, _lockedYAxisConst, transform.position.z); // Locks player's y-position
     }
 
     private void CameraMovement()
     {
-        float mouseX = plrInput.actions["MouseX"].ReadValue<float>() * PlayerSettings.mouseSensitivity;
-        float mouseY = plrInput.actions["MouseY"].ReadValue<float>() * PlayerSettings.mouseSensitivity;
+        float mouseX = _plrInput.actions["MouseX"].ReadValue<float>() * PlayerSettings.mouseSensitivity;
+        float mouseY = _plrInput.actions["MouseY"].ReadValue<float>() * PlayerSettings.mouseSensitivity;
 
         if (!PlayerSettings.mouseInverted)
-        {
-            xRotation -= mouseY;
-        }
+            _xRotation -= mouseY;
         else
-        {
-            xRotation += mouseY;
-        }
+            _xRotation += mouseY;
 
-        xRotation = Mathf.Clamp(xRotation, -MAX_CAMERA_ANGLE, MAX_CAMERA_ANGLE);
+        _xRotation = Mathf.Clamp(_xRotation, -MAX_CAMERA_ANGLE, MAX_CAMERA_ANGLE);
 
-        plrCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        _plrCamera.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
         transform.Rotate(transform.up * mouseX);
     }
 
@@ -78,42 +80,44 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="magnitude">Strength of the shake</param>
     /// <param name="fadeOut">Should the shake fade out? (default is true)</param>
     /// <returns></returns>
-    public IEnumerator ShakeCamera(float duration, float magnitude, bool fadeOut = true)
+    public IEnumerator ShakeCamera(float duration, float magnitude, bool fadeOut, float delay)
     {
-        if (currentlyShaking) { yield break; }
+        // Prevents running method twice
+        if (CurrentlyShaking) { yield break; }
+        CurrentlyShaking = true;
 
-        currentlyShaking = true;
+        if (delay > 0f)
+            yield return new WaitForSeconds(delay);
 
-        Vector3 originalPos = plrCamera.localPosition;
+        Vector3 originalPos = _plrCamera.localPosition;
 
         float elapsed = 0f;
-        duration = Mathf.Clamp(duration, 0f, 10f);
-
-        if (fadeOut)
-        {
-            // Creating lambda expression to tween magnitude to 0
-            LeanTween.value(gameObject, magnitude, 0f, duration).setEaseOutSine().setOnUpdate((float val) => { magnitude = val; });
-        }
+        float startingMagnitude = magnitude;
 
         while (elapsed < duration)
         {
-            float newX = Random.Range(-1f, 1f) * magnitude;
-            float newY = Random.Range(-1f, 1f) * magnitude;
+            float newX = Random.Range(-1f, 1f) * startingMagnitude;
+            float newY = Random.Range(-1f, 1f) * startingMagnitude;
 
-            plrCamera.localPosition = new Vector3(newX, newY, originalPos.z);
+            _plrCamera.localPosition = new Vector3(newX, newY, originalPos.z);
 
             elapsed += Time.deltaTime;
 
-            yield return null;
+            if (fadeOut)
+                startingMagnitude = Mathf.Lerp(magnitude, 0f, EasingFunctions.EaseOutCirc(elapsed / duration));
+
+            yield return new WaitForEndOfFrame();
         }
         
-        plrCamera.localPosition = originalPos;
+        _plrCamera.localPosition = originalPos;
 
-        currentlyShaking = false;
+        CurrentlyShaking = false;
     }
 }
 
-public class PlayerSettings
+// Class for handling all of the player's settings
+// Each setting is static to preserve over scenes
+public static class PlayerSettings
 {
     public enum ResolutionTypes
     {
@@ -121,8 +125,8 @@ public class PlayerSettings
         x128,
         x256,
         x512,
-
     }
+
     public static bool mouseInverted = true;
     public static bool motionBlur = true;
     public static float mouseSensitivity = 0.1f;

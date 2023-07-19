@@ -24,7 +24,7 @@ public class Flashlight : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.fKey.wasPressedThisFrame && plrMovement.playerCanInteract)
+        if (Keyboard.current.fKey.wasPressedThisFrame && plrMovement.PlayerCanInteract)
         {
             transform.rotation = transToFollow.rotation;
             audioSrc.Play();

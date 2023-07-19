@@ -24,7 +24,7 @@ public class MapScript : MonoBehaviour
 
     private void Update() 
     {
-        if (Keyboard.current.tabKey.wasPressedThisFrame && !LeanTween.isTweening(mapRect) && plrMovement.playerCanInteract || (mapOpen && Keyboard.current.tabKey.wasPressedThisFrame && !LeanTween.isTweening(mapRect)))
+        if (Keyboard.current.tabKey.wasPressedThisFrame && !LeanTween.isTweening(mapRect) && plrMovement.PlayerCanInteract || (mapOpen && Keyboard.current.tabKey.wasPressedThisFrame && !LeanTween.isTweening(mapRect)))
         {
             audioSrc.pitch = Random.Range(0.8f, 1.15f);
 
@@ -43,7 +43,7 @@ public class MapScript : MonoBehaviour
                 audioSrc.Play();
             }
 
-            plrMovement.playerCanInteract = !mapOpen;
+            plrMovement.PlayerCanInteract = !mapOpen;
         }
     }
 }

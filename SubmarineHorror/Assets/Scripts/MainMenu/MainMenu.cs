@@ -61,7 +61,7 @@ public class MainMenu : MonoBehaviour
 
     public void SizeUpUI(RectTransform rect)
     {
-        Vector3 scaleVector = new Vector3(1.1f, 1.1f, 1.1f);
+        Vector3 scaleVector = Vector3.one * 1.1f;
         rect.LeanScale(scaleVector, 0.1f);
     }
 
